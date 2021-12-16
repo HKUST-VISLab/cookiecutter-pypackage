@@ -1,0 +1,18 @@
+default_stages: [commit, push]
+default_language_version:
+  python: python3.8
+repos:
+{% if cookiecutter.use_black == 'y' -%}
+  - repo: https://github.com/psf/black
+    rev: 21.8b0
+    hooks:
+    - id: black
+      exclude: ^(venv/|docs/)
+      types: ['python']
+{% endif %}
+  - repo: https://github.com/PyCQA/flake8
+    rev: 3.8.2
+    hooks:
+    - id: flake8
+      exclude: ^(venv/|docs/)
+      types: ['python']
