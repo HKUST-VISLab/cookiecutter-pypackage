@@ -2,17 +2,30 @@ default_stages: [commit, push]
 default_language_version:
   python: python3.8
 repos:
-{% if cookiecutter.use_black == 'y' -%}
-  - repo: https://github.com/psf/black
-    rev: 21.8b0
+  {% if cookiecutter.use_black == 'y' -%}
+  - repo: local
     hooks:
     - id: black
+      name: black
+      entry: black
       exclude: ^(venv/|docs/)
-      types: ['python']
-{% endif %}
-  - repo: https://github.com/PyCQA/flake8
-    rev: 3.8.2
+      language: python
+      types: ['python']{% endif %}
+  - repo: local
+    hooks:
+    - id: autoflake
+      args: ['--in-place','--remove-unused-variables','--remove-all-unused-imports']
+      name: autoflake
+      entry: autoflake
+      language: python
+      exclude: ^(venv/|docs/)
+      types: [python]
+      require_serial: true
+  - repo: local
     hooks:
     - id: flake8
+      name: flake8
+      entry: flake8
       exclude: ^(venv/|docs/)
       types: ['python']
+      language: python
