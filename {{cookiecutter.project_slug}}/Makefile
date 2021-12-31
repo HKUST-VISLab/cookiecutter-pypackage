@@ -101,6 +101,6 @@ install: clean ## install the package to the active Python's site-packages
 	python setup.py install
 
 install-dev:
-	pip install -r requirements_dev.txt
+	pip install -e .[dev]
 	{% if cookiecutter.use_pre_commit == 'y' -%}
 	pre-commit install{% endif %}
