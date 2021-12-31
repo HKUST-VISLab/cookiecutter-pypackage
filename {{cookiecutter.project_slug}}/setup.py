@@ -10,9 +10,40 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-requirements = [{%- if cookiecutter.command_line_interface|lower == 'click' %}'Click>=7.0',{%- endif %} ]
+requirements = [
+    {%- if cookiecutter.command_line_interface|lower == 'click' %}'Click>=7.0',{% endif %}
+    {%- if cookiecutter.features == 'web crawling' %}
+    'cryptography==2.8',
+    'selenium',
+    'beautifulsoup4',
+    'webdriver_manager',
+    {%- endif %}
+]
 
-test_requirements = [{%- if cookiecutter.use_pytest == 'y' %}'pytest>=3',{%- endif %} ]
+dev_requirements = [
+    # general
+    'bump2version==0.5.11',
+    'wheel==0.33.6',
+    'watchdog==0.9.0',
+    {%- if cookiecutter.use_pre_commit == 'y' %}'pre-commit',{% endif %}
+
+    # style check
+    'flake8==3.7.8',
+
+    # fix style issues
+    'autoflake==1.4',
+    {%- if cookiecutter.use_black == 'y' %}'black==21.7b0',{% endif %}
+
+    # docs
+    'Sphinx==1.8.5',
+    'twine==1.14.0',
+]
+
+test_requirements = [
+    'coverage==4.5.4',
+    'tox==3.14.0',
+    {%- if cookiecutter.use_pytest == 'y' %}'pytest==6.2.4',{% endif %}
+]
 
 {%- set license_classifiers = {
     'MIT license': 'License :: OSI Approved :: MIT License',
@@ -56,7 +87,10 @@ setup(
     name='{{ cookiecutter.project_slug }}',
     packages=find_packages(include=['{{ cookiecutter.project_slug }}', '{{ cookiecutter.project_slug }}.*']),
     test_suite='tests',
-    tests_require=test_requirements,
+    extras_require = {
+        'test': test_requirements,
+        'dev': dev_requirements + test_requirements,
+    },
     url='https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}',
     version='{{ cookiecutter.version }}',
     zip_safe=False,

@@ -1,6 +1,0 @@
-{% if cookiecutter.features == 'web crawling' -%}
-cryptography==2.8
-selenium
-beautifulsoup4
-webdriver_manager
-{% endif %}
