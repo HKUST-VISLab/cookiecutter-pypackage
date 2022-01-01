@@ -15,5 +15,11 @@
   "create_author_file": "y",
   "open_source_license": ["MIT license", "BSD license", "ISC license", "Apache Software License 2.0", "GNU General Public License v3", "Not open source"],
   "features": ["web crawling"],
-  "use_pre_commit": "y"
+  "use_pre_commit": "y",
+  "support_py2": "n",
+  "pub_name": "publication_name",
+  "pub_link": "https://link_to_your_publication",
+  "github_owner": "HKUST-VISLab",
+  "repository_name": "repository_name",
+  "package_name": "vislab_software"
 }
